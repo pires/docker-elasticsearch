@@ -1,0 +1,26 @@
+cluster:
+  name: pires
+
+# You want this node to only serve as a master: to not store any data and
+# to have free resources. This will be the "coordinator" of your cluster.
+node:
+  master: true
+  data: false
+
+path:
+  data: /data/data
+  logs: /data/log
+  plugins: /elasticsearch/plugins
+  work: /data/work
+
+bootstrap:
+  mlockall: true
+
+http:
+  enabled: false
+
+discovery:
+  zen:
+    ping:
+      multicast:
+        enabled: false
