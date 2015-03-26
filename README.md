@@ -1,6 +1,6 @@
 # docker-elasticsearch
 
-Very lean and highly configurable Elasticsearch Docker image, based on `progrium/busybox`.
+Very lean (243MB) and highly configurable Elasticsearch Docker image, based on `progrium/busybox`.
 
 ## Current software
 

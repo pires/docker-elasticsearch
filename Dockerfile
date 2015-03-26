@@ -28,7 +28,8 @@ RUN \
   gunzip /$ES_PKG_NAME.tar.gz && \
   tar xf /$ES_PKG_NAME.tar && \
   rm -f /$ES_PKG_NAME.tar.gz && \
-  mv /$ES_PKG_NAME /elasticsearch
+  mv /$ES_PKG_NAME /elasticsearch && \
+  rm -rf $(find /elasticsearch | egrep "(\.(exe|bat)$|sigar/.*(dll|winnt|x86-linux|solaris|ia64|freebsd|macosx))")
 
 # Volume for Elasticsearch configuration
 VOLUME ["/elasticsearch/config"]
