@@ -1,6 +1,6 @@
 # docker-elasticsearch
 
-Very lean (243MB) and highly configurable Elasticsearch Docker image, based on `progrium/busybox`.
+Very lean (205MB) and highly configurable Elasticsearch Docker image, based on `progrium/busybox`.
 
 ## Current software
 
@@ -23,15 +23,15 @@ docker build -t pires/docker-elasticsearch .
 
 ## Run
 
-You need a folder named `conf` with your own version of `elasticsearch.yml`. You can add other Elasticserach configuration files to this folder, such as `logging.yml`. If in doubt, take a look at the `conf` folder 
+You need a folder named `config` with your own version of `elasticsearch.yml`. You can add other Elasticserach configuration files to this folder, such as `logging.yml`. If in doubt, take a look at the `config` folder 
 
 ```
 docker pull pires/docker-elasticsearch
-docker run -d -v /path/to/conf_folder:/elasticsearch/conf pires/docker-elasticsearch
+docker run --rm -v /path/to/config:/elasticsearch/config pires/docker-elasticsearch
 ```
 
 In case you want to specify a data folder so that Elasticsearch writes to storage outside the container, run
 ```
 docker pull pires/docker-elasticsearch
-docker run -d -v /path/to/conf_folder:/elasticsearch/conf -v /path/to/data_folder:/data pires/docker-elasticsearch
+docker run --rm -v /path/to/config:/elasticsearch/config -v /path/to/data_folder:/data pires/docker-elasticsearch
 ```
