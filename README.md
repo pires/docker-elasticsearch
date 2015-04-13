@@ -5,7 +5,7 @@ Very lean (205MB) and highly configurable Elasticsearch Docker image, based on `
 ## Current software
 
 * Oracle JRE 8 Update 40
-* Elasticsearch 1.5.0
+* Elasticsearch 1.5.1
 
 ## Pre-requisites
 
