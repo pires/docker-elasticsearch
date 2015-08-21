@@ -11,19 +11,36 @@ Very lean (200MB) and highly configurable Elasticsearch Docker image, based on `
 
 ## Pre-requisites
 
-* Docker 1.5.0+
+* Docker 1.7.0+
 
 ## Run
 
-You need a folder named `config` with your own version of `elasticsearch.yml`. You can add other Elasticserach configuration files to this folder, such as `logging.yml`. If in doubt, take a look at the `config` folder 
-
+Ready to use node for cluster `elasticsearch-default`:
 ```
-docker run --rm -v /path/to/config:/elasticsearch/config -e ES_HEAP_SIZE=512M quay.io/pires/docker-elasticsearch:1.7.1
-```
-
-In case you want to specify a data folder so that Elasticsearch writes to storage outside the container, run
-```
-docker run --rm -v /path/to/config:/elasticsearch/config -v /path/to/data_folder:/data -e ES_HEAP_SIZE=512M quay.io/pires/docker-elasticsearch:1.7.1
+docker run --name elasticsearch --detach --volume /path/to/data_folder:/data quay.io/pires/docker-elasticsearch:1.7.1-2
 ```
 
-Change `ES_HEAP_SIZE` to match your environment resources.
+Ready to use node for cluster `myclustername`:
+```
+docker run --name elasticsearch --detach --volume /path/to/data_folder:/data -e CLUSTER_NAME=myclustername quay.io/pires/docker-elasticsearch:1.7.1-2
+```
+
+Ready to use node for cluster `elasticsearch-default`, with 8GB heap allocated to Elasticsearch:
+```
+docker run --name elasticsearch --detach --volume /path/to/data_folder:/data -e ES_HEAP_SIZE=8G quay.io/pires/docker-elasticsearch:1.7.1-2
+```
+
+**Master-only** node for cluster `elasticsearch-default`:
+```
+docker run --name elasticsearch --detach --volume /path/to/data_folder:/data -e NODE_DATA=false -e HTTP_ENABLE=false quay.io/pires/docker-elasticsearch:1.7.1-2
+```
+
+**Data-only** node for cluster `elasticsearch-default`:
+```
+docker run --name elasticsearch --detach --volume /path/to/data_folder:/data -e NODE_MASTER=false -e HTTP_ENABLE=false quay.io/pires/docker-elasticsearch:1.7.1-2
+```
+
+**Client-only** node for cluster `elasticsearch-default`:
+```
+docker run --name elasticsearch --detach --volume /path/to/data_folder:/data -e NODE_MASTER=false NODE_DATA=false quay.io/pires/docker-elasticsearch:1.7.1-2
+```

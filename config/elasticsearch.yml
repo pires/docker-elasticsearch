@@ -1,11 +1,11 @@
 cluster:
-  name: pires
+  name: ${CLUSTER_NAME}
 
 # You want this node to only serve as a master: to not store any data and
 # to have free resources. This will be the "coordinator" of your cluster.
 node:
-  master: true
-  data: false
+  master: ${NODE_MASTER}
+  data: ${NODE_DATA}
 
 path:
   data: /data/data
@@ -13,14 +13,8 @@ path:
   plugins: /elasticsearch/plugins
   work: /data/work
 
-bootstrap:
-  mlockall: true
+bootstrap.mlockall: true
 
-http:
-  enabled: false
+http.enabled: ${HTTP_ENABLE}
 
-discovery:
-  zen:
-    ping:
-      multicast:
-        enabled: false
+discovery.zen.ping.multicast.enabled: ${MULTICAST}
