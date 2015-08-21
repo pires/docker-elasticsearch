@@ -14,10 +14,13 @@ RUN apk add --update curl ca-certificates && \
   rm -rf $(find /elasticsearch | egrep "(\.(exe|bat)$|sigar/.*(dll|winnt|x86-linux|solaris|ia64|freebsd|macosx))") && \
   apk del curl wget ca-certificates
 
-# Volume for Elasticsearch configuration
-VOLUME ["/elasticsearch/config"]
-
 # Volume for Elasticsearch data
 VOLUME ["/data"]
 
-CMD ["/elasticsearch/bin/elasticsearch"]
+# Copy configuration
+COPY config /elasticsearch/config
+
+# Copy run script
+COPY run.sh /
+
+CMD ["/run.sh"]
