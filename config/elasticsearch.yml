@@ -1,8 +1,6 @@
 cluster:
   name: ${CLUSTER_NAME}
 
-# You want this node to only serve as a master: to not store any data and
-# to have free resources. This will be the "coordinator" of your cluster.
 node:
   master: ${NODE_MASTER}
   data: ${NODE_DATA}
