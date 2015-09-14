@@ -69,3 +69,5 @@ docker run --name elasticsearch \
 	-e NODE_DATA=false \
 	quay.io/pires/docker-elasticsearch:1.7.2
 ```
+
+I also make available special images and instructions for [AWS EC2](https://github.com/pires/docker-elasticsearch-aws) and [Kubernetes](https://github.com/pires/docker-elasticsearch-kubernetes).
