@@ -1,6 +1,6 @@
 # docker-elasticsearch
 
-Very lean (200MB) and highly configurable Elasticsearch Docker image, based on `gliderlabs/alpine`.
+Very lean (202MB) and highly configurable Elasticsearch Docker image, based on `gliderlabs/alpine`.
 
 [![Docker Repository on Quay.io](https://quay.io/repository/pires/docker-elasticsearch/status "Docker Repository on Quay.io")](https://quay.io/repository/pires/docker-elasticsearch)
 
