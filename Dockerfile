@@ -1,16 +1,17 @@
-FROM quay.io/pires/docker-jre:8u60
+FROM quay.io/pires/docker-jre:8u66
 MAINTAINER pjpires@gmail.com
 
 # Export HTTP & Transport
 EXPOSE 9200 9300
 
-ENV ES_PKG_NAME elasticsearch-1.7.2
+ENV VERSION 2.0.0
 
 # Install Elasticsearch.
-RUN apk add --update curl ca-certificates && \
-  ( curl -Lskj https://download.elasticsearch.org/elasticsearch/elasticsearch/$ES_PKG_NAME.tar.gz | \
+RUN apk add --update curl ca-certificates sudo && \
+
+  ( curl -Lskj https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/$VERSION/elasticsearch-$VERSION.tar.gz | \
   gunzip -c - | tar xf - ) && \
-  mv /$ES_PKG_NAME /elasticsearch && \
+  mv /elasticsearch-$VERSION /elasticsearch && \
   rm -rf $(find /elasticsearch | egrep "(\.(exe|bat)$|sigar/.*(dll|winnt|x86-linux|solaris|ia64|freebsd|macosx))") && \
   apk del curl wget ca-certificates
 
