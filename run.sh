@@ -14,5 +14,8 @@ export NODE_DATA=${NODE_DATA:-true}
 export HTTP_ENABLE=${HTTP_ENABLE:-true}
 export MULTICAST=${MULTICAST:-true}
 
+# allow for memlock
+ulimit -l unlimited
+
 # run
 sudo -E -u elasticsearch /elasticsearch/bin/elasticsearch
