@@ -35,7 +35,6 @@ appender:
     type: dailyRollingFile
     file: ${path.logs}/${cluster.name}.log
     datePattern: "'.'yyyy-MM-dd"
-    maxBackupIndex: 2
     layout:
       type: pattern
       conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
@@ -44,7 +43,6 @@ appender:
     type: dailyRollingFile
     file: ${path.logs}/${cluster.name}_index_search_slowlog.log
     datePattern: "'.'yyyy-MM-dd"
-    maxBackupIndex: 2
     layout:
       type: pattern
       conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
@@ -53,7 +51,6 @@ appender:
     type: dailyRollingFile
     file: ${path.logs}/${cluster.name}_index_indexing_slowlog.log
     datePattern: "'.'yyyy-MM-dd"
-    maxBackupIndex: 2
     layout:
       type: pattern
       conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
