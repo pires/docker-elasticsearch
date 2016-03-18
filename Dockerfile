@@ -1,4 +1,4 @@
-FROM quay.io/pires/docker-jre:8u74-dns
+FROM quay.io/pires/docker-jre:8u72
 MAINTAINER pjpires@gmail.com
 
 # Export HTTP & Transport
@@ -13,7 +13,7 @@ RUN apk add --update curl ca-certificates sudo && \
   gunzip -c - | tar xf - ) && \
   mv /elasticsearch-$VERSION /elasticsearch && \
   rm -rf $(find /elasticsearch | egrep "(\.(exe|bat)$|sigar/.*(dll|winnt|x86-linux|solaris|ia64|freebsd|macosx))") && \
-  apk del curl wget ca-certificates
+  apk del curl
 
 # Volume for Elasticsearch data
 VOLUME ["/data"]

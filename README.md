@@ -1,12 +1,12 @@
 # docker-elasticsearch
 
-Very lean (208MB) and highly configurable Elasticsearch Docker image.
+Very lean (153MB) and highly configurable Elasticsearch Docker image.
 
 [![Docker Repository on Quay.io](https://quay.io/repository/pires/docker-elasticsearch/status "Docker Repository on Quay.io")](https://quay.io/repository/pires/docker-elasticsearch)
 
 ## Current software
 
-* Oracle JRE 8 Update 74
+* [OpenJDK 8u72](http://openjdk.java.net/projects/jdk8u/releases/8u72.html)
 * Elasticsearch 2.2.1
 
 ## Run
