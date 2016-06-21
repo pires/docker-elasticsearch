@@ -20,5 +20,3 @@ http:
   compression: true
   cors:
     enabled: ${HTTP_CORS_ENABLE}
-
-discovery.zen.ping.multicast.enabled: ${MULTICAST}

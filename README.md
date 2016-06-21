@@ -11,7 +11,10 @@ Very lean (140MB) and highly configurable Elasticsearch Docker image.
 
 ## Run
 
-**Note:** In order for `bootstrap.mlockall` to work, `ulimit` must be allowed to run in the container. Run with `--privileged` to enable this.
+### Attention
+
+* In order for `bootstrap.mlockall` to work, `ulimit` must be allowed to run in the container. Run with `--privileged` to enable this.
+* [Multicast discovery is no longer built-in](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/breaking_20_removed_features.html#_multicast_discovery_is_now_a_plugin)
 
 Ready to use node for cluster `elasticsearch-default`:
 ```
