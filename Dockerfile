@@ -1,10 +1,10 @@
-FROM quay.io/pires/docker-jre:8u92-alpine34
+FROM quay.io/pires/docker-jre:8u92-r1
 MAINTAINER pjpires@gmail.com
 
 # Export HTTP & Transport
 EXPOSE 9200 9300
 
-ENV VERSION 2.3.3
+ENV VERSION 2.3.4
 
 # Install Elasticsearch.
 RUN apk add --update curl ca-certificates sudo && \
