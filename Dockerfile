@@ -4,7 +4,7 @@ MAINTAINER pjpires@gmail.com
 # Export HTTP & Transport
 EXPOSE 9200 9300
 
-ENV VERSION 2.3.4
+ENV VERSION 2.3.5
 
 # Install Elasticsearch.
 RUN apk add --update curl ca-certificates sudo && \
@@ -32,4 +32,5 @@ ENV HTTP_ENABLE true
 ENV NETWORK_HOST _site_
 ENV HTTP_CORS_ENABLE true
 ENV HTTP_CORS_ALLOW_ORIGIN *
+
 CMD ["/run.sh"]
