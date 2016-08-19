@@ -24,4 +24,12 @@ COPY config /elasticsearch/config
 # Copy run script
 COPY run.sh /
 
+# Set environment variables defaults
+ENV CLUSTER_NAME elasticsearch-default
+ENV NODE_MASTER true
+ENV NODE_DATA true
+ENV HTTP_ENABLE true
+ENV NETWORK_HOST _site_
+ENV HTTP_CORS_ENABLE true
+ENV HTTP_CORS_ALLOW_ORIGIN *
 CMD ["/run.sh"]
