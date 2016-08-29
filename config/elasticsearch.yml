@@ -20,3 +20,7 @@ http:
   compression: true
   cors:
     enabled: ${HTTP_CORS_ENABLE}
+
+discovery:
+  zen:
+    minimum_master_nodes: ${NUMBER_OF_MASTERS}

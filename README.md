@@ -90,6 +90,7 @@ This image can be configured by means of environment variables, that one can set
 * [HTTP_ENABLE](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html#_settings_2)
 * [HTTP_CORS_ENABLE](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html#_settings_2)
 * [HTTP_CORS_ALLOW_ORIGIN](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html#_settings_2)
+* [NUMBER_OF_MASTERS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery-zen.html#master-election)
 * [NUMBER_OF_SHARDS](https://www.elastic.co/guide/en/elasticsearch/guide/current/_index_settings.html)
 * [NUMBER_OF_REPLICAS](https://www.elastic.co/guide/en/elasticsearch/guide/current/_index_settings.html)
 * [ES_HEAP_SIZE](https://www.elastic.co/guide/en/elasticsearch/guide/2.x/heap-sizing.html)
