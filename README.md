@@ -41,7 +41,7 @@ docker run --name elasticsearch \
 	--detach \
 	--privileged \
 	--volume /path/to/data_folder:/data \
-	-e ES_HEAP_SIZE=8G \
+	-e ES_JAVA_OPTS="-Xms8g -Xmx8g" \
         quay.io/pires/docker-elasticsearch:5.0.0
 ```
 
@@ -93,4 +93,4 @@ This image can be configured by means of environment variables, that one can set
 * [NUMBER_OF_MASTERS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery-zen.html#master-election)
 * [NUMBER_OF_SHARDS](https://www.elastic.co/guide/en/elasticsearch/guide/current/_index_settings.html)
 * [NUMBER_OF_REPLICAS](https://www.elastic.co/guide/en/elasticsearch/guide/current/_index_settings.html)
-* [ES_HEAP_SIZE](https://www.elastic.co/guide/en/elasticsearch/guide/2.x/heap-sizing.html)
+* [ES_JAVA_OPTS](https://www.elastic.co/guide/en/elasticsearch/reference/current/heap-size.html)
