@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# provision elasticsearch user
-adduser -D -g '' elasticsearch
 chown -R elasticsearch /elasticsearch /data
 
 # allow for memlock
