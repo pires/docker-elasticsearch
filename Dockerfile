@@ -12,8 +12,7 @@ RUN apk add --update bash curl ca-certificates sudo && \
   gunzip -c - | tar xf - ) && \
   mv /elasticsearch-$VERSION /elasticsearch && \
   rm -rf $(find /elasticsearch | egrep "(\.(exe|bat)$)") && \
-  apk del curl && \
-  adduser -D -g '' elasticsearch # provision elasticsearch user
+  apk del curl
 
 # Volume for Elasticsearch data
 VOLUME ["/data"]
