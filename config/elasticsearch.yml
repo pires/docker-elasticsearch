@@ -7,9 +7,12 @@ node:
 
 network.host: ${NETWORK_HOST}
 
+path:
+  data: /data/data
+  logs: /data/log
+
 bootstrap:
   memory_lock: true
-  ignore_system_bootstrap_checks: true
 
 http:
   enabled: ${HTTP_ENABLE}
