@@ -1,4 +1,4 @@
-FROM quay.io/pires/docker-jre:8u112
+FROM quay.io/pires/docker-jre:8u112_1
 MAINTAINER pjpires@gmail.com
 
 # Export HTTP & Transport
