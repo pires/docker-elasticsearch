@@ -4,7 +4,7 @@ MAINTAINER pjpires@gmail.com
 # Export HTTP & Transport
 EXPOSE 9200 9300
 
-ENV VERSION 5.1.2
+ENV VERSION 5.2.0
 
 # Install Elasticsearch.
 RUN apk add --update bash curl ca-certificates sudo && \
