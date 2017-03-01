@@ -7,7 +7,7 @@ EXPOSE 9200 9300
 ENV VERSION 5.2.1
 
 # Install Elasticsearch.
-RUN apk add --update bash curl ca-certificates sudo && \
+RUN apk add --update bash curl ca-certificates sudo util-linux && \
   ( curl -Lskj https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$VERSION.tar.gz | \
   gunzip -c - | tar xf - ) && \
   mv /elasticsearch-$VERSION /elasticsearch && \
