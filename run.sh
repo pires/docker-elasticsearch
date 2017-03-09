@@ -18,4 +18,7 @@ export NODE_NAME=${NODE_NAME}
 
 
 # run
+if [ "${INSTALL_XPACK}" == "true" ]; then
+	/elasticsearch/bin/elasticsearch-plugin install -s x-pack
+fi
 sudo -E -u elasticsearch /elasticsearch/bin/elasticsearch
