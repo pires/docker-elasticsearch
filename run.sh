@@ -16,9 +16,16 @@ if [ -z "${NODE_NAME}" ]; then
 fi
 export NODE_NAME=${NODE_NAME}
 
+if [ ! -z "${ES_PLUGINS_INSTALL}" ]; then
+   OLDIFS=$IFS
+   IFS=','
+   for plugin in ${ES_PLUGINS_INSTALL}; do
+      if ! /elasticsearch/bin/elasticsearch-plugin list | grep -qs ${plugin}; then
+         yes | /elasticsearch/bin/elasticsearch-plugin install --batch ${plugin}
+      fi
+   done
+   IFS=$OLDIFS
+fi
 
 # run
-if [ "${INSTALL_XPACK}" == "true" ]; then
-	/elasticsearch/bin/elasticsearch-plugin install -s x-pack
-fi
 sudo -E -u elasticsearch /elasticsearch/bin/elasticsearch
