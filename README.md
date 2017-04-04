@@ -6,7 +6,7 @@ Very lean (120MB) and highly configurable Elasticsearch Docker image.
 
 ## Current software
 
-* [OpenJDK 8u112](http://openjdk.java.net/projects/jdk8u/releases/8u112.html)
+* OpenJDK JRE 8u121
 * Elasticsearch 5.2.2
 
 ## Run
