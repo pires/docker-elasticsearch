@@ -16,6 +16,9 @@ if [ -z "${NODE_NAME}" ]; then
 fi
 export NODE_NAME=${NODE_NAME}
 
+# Prevent "Text file busy" errors
+sync
+
 if [ ! -z "${ES_PLUGINS_INSTALL}" ]; then
    OLDIFS=$IFS
    IFS=','
