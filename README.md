@@ -1,13 +1,13 @@
 # docker-elasticsearch
 
-Very lean (120MB) and highly configurable Elasticsearch Docker image.
+Very lean (128MB) and highly configurable Elasticsearch Docker image.
 
 [![Docker Repository on Quay.io](https://quay.io/repository/pires/docker-elasticsearch/status "Docker Repository on Quay.io")](https://quay.io/repository/pires/docker-elasticsearch)
 
 ## Current software
 
 * OpenJDK JRE 8u121
-* Elasticsearch 5.2.2
+* Elasticsearch 5.3.0
 
 ## Run
 
@@ -22,7 +22,7 @@ docker run --name elasticsearch \
 	--detach \
 	--privileged \
 	--volume /path/to/data_folder:/data \
-        quay.io/pires/docker-elasticsearch:5.2.2
+        quay.io/pires/docker-elasticsearch:5.3.0
 ```
 
 Ready to use node for cluster `myclustername`:
@@ -32,7 +32,7 @@ docker run --name elasticsearch \
 	--privileged \
 	--volume /path/to/data_folder:/data \
 	-e CLUSTER_NAME=myclustername \
-        quay.io/pires/docker-elasticsearch:5.2.2
+        quay.io/pires/docker-elasticsearch:5.3.0
 ```
 
 Ready to use node for cluster `elasticsearch-default`, with 8GB heap allocated to Elasticsearch:
@@ -42,7 +42,7 @@ docker run --name elasticsearch \
 	--privileged \
 	--volume /path/to/data_folder:/data \
 	-e ES_JAVA_OPTS="-Xms8g -Xmx8g" \
-        quay.io/pires/docker-elasticsearch:5.2.2
+        quay.io/pires/docker-elasticsearch:5.3.0
 ```
 
 Ready to use node with plugins (x-pack and repository-gcs) pre installed. Already installed plugins are ignored:
@@ -53,7 +53,7 @@ docker run --name elasticsearch \
 	--volume /path/to/data_folder:/data \
 	-e ES_JAVA_OPTS="-Xms8g -Xmx8g" \
 	-e ES_PLUGINS_INSTALL="repository-gcs,x-pack" \
-        quay.io/pires/docker-elasticsearch:5.2.2
+        quay.io/pires/docker-elasticsearch:5.3.0
 ```
 
 **Master-only** node for cluster `elasticsearch-default`:
@@ -64,7 +64,7 @@ docker run --name elasticsearch \
 	--volume /path/to/data_folder:/data \
 	-e NODE_DATA=false \
 	-e HTTP_ENABLE=false \
-        quay.io/pires/docker-elasticsearch:5.2.2
+        quay.io/pires/docker-elasticsearch:5.3.0
 ```
 
 **Data-only** node for cluster `elasticsearch-default`:
@@ -74,7 +74,7 @@ docker run --name elasticsearch \
 	--privileged \
 	-e NODE_MASTER=false \
 	-e HTTP_ENABLE=false \
-        quay.io/pires/docker-elasticsearch:5.2.2
+        quay.io/pires/docker-elasticsearch:5.3.0
 ```
 
 **Client-only** node for cluster `elasticsearch-default`:
@@ -85,7 +85,7 @@ docker run --name elasticsearch \
 	--volume /path/to/data_folder:/data \
 	-e NODE_MASTER=false \
 	-e NODE_DATA=false \
-        quay.io/pires/docker-elasticsearch:5.2.2
+        quay.io/pires/docker-elasticsearch:5.3.0
 ```
 I also make available special images and instructions for [AWS EC2](https://github.com/pires/docker-elasticsearch-aws) and [Kubernetes](https://github.com/pires/docker-elasticsearch-kubernetes).
 
