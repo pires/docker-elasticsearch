@@ -30,5 +30,12 @@ if [ ! -z "${ES_PLUGINS_INSTALL}" ]; then
    IFS=$OLDIFS
 fi
 
+if [ ! -z "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
+    # this will map to a file like  /etc/hostname => /dockerhostname so reading that file will get the
+    #  container hostname
+    ES_SHARD_ATTR=`cat ${SHARD_ALLOCATION_AWARENESS_ATTR}`
+    echo "node.attr.${SHARD_ALLOCATION_AWARENESS}=${ES_SHARD_ATTR}" >> /etc/elasticsearch/elasticsearch.yml
+fi
+
 # run
 sudo -E -u elasticsearch /elasticsearch/bin/elasticsearch
