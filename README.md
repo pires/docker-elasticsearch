@@ -81,7 +81,7 @@ docker run --name elasticsearch \
 ```
 docker run --name elasticsearch \
 	--detach --volume /path/to/data_folder:/data \
-    --volume /etc/hostname:/dockerhost
+        --volume /etc/hostname:/dockerhost \
 	--privileged \
 	-e NODE_MASTER=false \
 	-e HTTP_ENABLE=false \
