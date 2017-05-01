@@ -35,6 +35,7 @@ if [ ! -z "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
     #  container hostname
     if [ "$NODE_DATA" == "true" ]; then
         ES_SHARD_ATTR=`cat ${SHARD_ALLOCATION_AWARENESS_ATTR}`
+        NODE_NAME="${ES_SHARD_ATTR}-${NODE_NAME}"
         echo "node.attr.${SHARD_ALLOCATION_AWARENESS}: ${ES_SHARD_ATTR}" >> /elasticsearch/config/elasticsearch.yml
     fi
     if [ "$NODE_MASTER" == "true" ]; then
