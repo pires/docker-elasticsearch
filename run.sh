@@ -30,5 +30,18 @@ if [ ! -z "${ES_PLUGINS_INSTALL}" ]; then
    IFS=$OLDIFS
 fi
 
+if [ ! -z "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
+    # this will map to a file like  /etc/hostname => /dockerhostname so reading that file will get the
+    #  container hostname
+    if [ "$NODE_DATA" == "true" ]; then
+        ES_SHARD_ATTR=`cat ${SHARD_ALLOCATION_AWARENESS_ATTR}`
+        NODE_NAME="${ES_SHARD_ATTR}-${NODE_NAME}"
+        echo "node.attr.${SHARD_ALLOCATION_AWARENESS}: ${ES_SHARD_ATTR}" >> /elasticsearch/config/elasticsearch.yml
+    fi
+    if [ "$NODE_MASTER" == "true" ]; then
+        echo "cluster.routing.allocation.awareness.attributes: ${SHARD_ALLOCATION_AWARENESS}" >> /elasticsearch/config/elasticsearch.yml
+    fi
+fi
+
 # run
 sudo -E -u elasticsearch /elasticsearch/bin/elasticsearch
