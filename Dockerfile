@@ -4,18 +4,45 @@ MAINTAINER pjpires@gmail.com
 # Export HTTP & Transport
 EXPOSE 9200 9300
 
-ENV VERSION 5.4.0
+ENV ES_VERSION 5.4.0
+
+ENV DOWNLOAD_URL "https://artifacts.elastic.co/downloads/elasticsearch"
+ENV ES_TARBAL "${DOWNLOAD_URL}/elasticsearch-${ES_VERSION}.tar.gz"
+ENV ES_TARBALL_ASC "${DOWNLOAD_URL}/elasticsearch-${ES_VERSION}.tar.gz.asc"
+ENV GPG_KEY "46095ACC8548582C1A2699A9D27D666CD88E42B4"
 
 # Install Elasticsearch.
-RUN apk add --update bash curl ca-certificates sudo util-linux && \
-  ( curl -Lskj https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$VERSION.tar.gz | \
-  gunzip -c - | tar xf - ) && \
-  mv /elasticsearch-$VERSION /elasticsearch && \
-  rm -rf $(find /elasticsearch | egrep "(\.(exe|bat)$)") && \
-  apk del curl
+RUN apk add --no-cache --update bash ca-certificates su-exec util-linux
+RUN apk add --no-cache -t .build-deps wget gnupg openssl \
+  && cd /tmp \
+  && echo "===> Install Elasticsearch..." \
+  && wget -O elasticsearch.tar.gz "$ES_TARBAL"; \
+	if [ "$ES_TARBALL_ASC" ]; then \
+		wget -O elasticsearch.tar.gz.asc "$ES_TARBALL_ASC"; \
+		export GNUPGHOME="$(mktemp -d)"; \
+		gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY"; \
+		gpg --batch --verify elasticsearch.tar.gz.asc elasticsearch.tar.gz; \
+		rm -r "$GNUPGHOME" elasticsearch.tar.gz.asc; \
+	fi; \
+  tar -xf elasticsearch.tar.gz \
+  && ls -lah \
+  && mv elasticsearch-$ES_VERSION /elasticsearch \
+  && adduser -DH -s /sbin/nologin elasticsearch \
+  && echo "===> Creating Elasticsearch Paths..." \
+  && for path in \
+  	/elasticsearch/config \
+  	/elasticsearch/config/scripts \
+  	/elasticsearch/plugins \
+  ; do \
+  mkdir -p "$path"; \
+  chown -R elasticsearch:elasticsearch "$path"; \
+  done \
+  && rm -rf /tmp/* \
+  && apk del --purge .build-deps
 
-# Volume for Elasticsearch data
-VOLUME ["/data"]
+ENV PATH /elasticsearch/bin:$PATH
+
+WORKDIR /elasticsearch
 
 # Copy configuration
 COPY config /elasticsearch/config
@@ -38,5 +65,7 @@ ENV MAX_LOCAL_STORAGE_NODES 1
 ENV SHARD_ALLOCATION_AWARENESS ""
 ENV SHARD_ALLOCATION_AWARENESS_ATTR ""
 
+# Volume for Elasticsearch data
+VOLUME ["/data"]
 
 CMD ["/run.sh"]

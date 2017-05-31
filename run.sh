@@ -1,11 +1,6 @@
 #!/bin/sh
 
-# provision elasticsearch user
-addgroup sudo
-adduser -D -g '' elasticsearch
-adduser elasticsearch sudo
-chown -R elasticsearch /elasticsearch /data
-echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+BASE=/elasticsearch
 
 # allow for memlock
 ulimit -l unlimited
@@ -23,8 +18,8 @@ if [ ! -z "${ES_PLUGINS_INSTALL}" ]; then
    OLDIFS=$IFS
    IFS=','
    for plugin in ${ES_PLUGINS_INSTALL}; do
-      if ! /elasticsearch/bin/elasticsearch-plugin list | grep -qs ${plugin}; then
-         yes | /elasticsearch/bin/elasticsearch-plugin install --batch ${plugin}
+      if ! $BASE/bin/elasticsearch-plugin list | grep -qs ${plugin}; then
+         yes | $BASE/bin/elasticsearch-plugin install --batch ${plugin}
       fi
    done
    IFS=$OLDIFS
@@ -36,12 +31,14 @@ if [ ! -z "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
     if [ "$NODE_DATA" == "true" ]; then
         ES_SHARD_ATTR=`cat ${SHARD_ALLOCATION_AWARENESS_ATTR}`
         NODE_NAME="${ES_SHARD_ATTR}-${NODE_NAME}"
-        echo "node.attr.${SHARD_ALLOCATION_AWARENESS}: ${ES_SHARD_ATTR}" >> /elasticsearch/config/elasticsearch.yml
+        echo "node.attr.${SHARD_ALLOCATION_AWARENESS}: ${ES_SHARD_ATTR}" >> $BASE/config/elasticsearch.yml
     fi
     if [ "$NODE_MASTER" == "true" ]; then
-        echo "cluster.routing.allocation.awareness.attributes: ${SHARD_ALLOCATION_AWARENESS}" >> /elasticsearch/config/elasticsearch.yml
+        echo "cluster.routing.allocation.awareness.attributes: ${SHARD_ALLOCATION_AWARENESS}" >> $BASE/config/elasticsearch.yml
     fi
 fi
 
 # run
-sudo -E -u elasticsearch /elasticsearch/bin/elasticsearch
+chown -R elasticsearch:elasticsearch $BASE
+chown -R elasticsearch:elasticsearch /data
+su-exec elasticsearch $BASE/bin/elasticsearch
