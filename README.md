@@ -1,6 +1,6 @@
 # docker-elasticsearch
 
-Lean (128MB) and highly configurable Elasticsearch Docker image.
+Ready to use, lean and highly configurable Elasticsearch container image.
 
 [![Docker Repository on Quay.io](https://quay.io/repository/pires/docker-elasticsearch/status "Docker Repository on Quay.io")](https://quay.io/repository/pires/docker-elasticsearch)
 
