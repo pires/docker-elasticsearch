@@ -1,10 +1,10 @@
-FROM quay.io/pires/docker-jre:8u131_alpine3.6.2
+FROM quay.io/pires/docker-jre:8u131_r2
 MAINTAINER pjpires@gmail.com
 
 # Export HTTP & Transport
 EXPOSE 9200 9300
 
-ENV ES_VERSION 5.5.2
+ENV ES_VERSION 5.6.0
 
 ENV DOWNLOAD_URL "https://artifacts.elastic.co/downloads/elasticsearch"
 ENV ES_TARBAL "${DOWNLOAD_URL}/elasticsearch-${ES_VERSION}.tar.gz"
