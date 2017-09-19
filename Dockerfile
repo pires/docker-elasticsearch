@@ -12,13 +12,13 @@ ENV ES_TARBALL_ASC "${DOWNLOAD_URL}/elasticsearch-${ES_VERSION}.tar.gz.asc"
 ENV GPG_KEY "46095ACC8548582C1A2699A9D27D666CD88E42B4"
 
 # Install Elasticsearch.
-RUN apk add --no-cache --update bash ca-certificates su-exec util-linux
-RUN apk add --no-cache -t .build-deps wget gnupg openssl \
+RUN apk add --no-cache --update bash ca-certificates su-exec util-linux curl
+RUN apk add --no-cache -t .build-deps gnupg openssl \
   && cd /tmp \
   && echo "===> Install Elasticsearch..." \
-  && wget -O elasticsearch.tar.gz "$ES_TARBAL"; \
+  && curl -o elasticsearch.tar.gz -Lskj "$ES_TARBAL"; \
 	if [ "$ES_TARBALL_ASC" ]; then \
-		wget -O elasticsearch.tar.gz.asc "$ES_TARBALL_ASC"; \
+		curl -o elasticsearch.tar.gz.asc -Lskj "$ES_TARBALL_ASC"; \
 		export GNUPGHOME="$(mktemp -d)"; \
 		gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY"; \
 		gpg --batch --verify elasticsearch.tar.gz.asc elasticsearch.tar.gz; \
