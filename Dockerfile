@@ -50,6 +50,9 @@ COPY config /elasticsearch/config
 # Copy run script
 COPY run.sh /
 
+# Copy Kubernetes hooks
+COPY k8s /k8s
+
 # Set environment variables defaults
 ENV ES_JAVA_OPTS "-Xms512m -Xmx512m"
 ENV CLUSTER_NAME elasticsearch-default
