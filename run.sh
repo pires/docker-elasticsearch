@@ -41,4 +41,4 @@ fi
 # run
 chown -R elasticsearch:elasticsearch $BASE
 chown -R elasticsearch:elasticsearch /data
-su-exec elasticsearch $BASE/bin/elasticsearch
+exec su-exec elasticsearch $BASE/bin/elasticsearch
