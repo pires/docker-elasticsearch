@@ -3,7 +3,7 @@
 BASE=/elasticsearch
 
 # allow for memlock if enabled
-if [ "$MEMORY_LOCK" == "true"]; then
+if [ "$MEMORY_LOCK" == "true" ]; then
     ulimit -l unlimited
 fi
 
