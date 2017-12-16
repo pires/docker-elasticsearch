@@ -2,8 +2,10 @@
 
 BASE=/elasticsearch
 
-# allow for memlock
-ulimit -l unlimited
+# allow for memlock if enabled
+if [ "$MEMORY_LOCK" == "true"]; then
+    ulimit -l unlimited
+fi
 
 # Set a random node name if not set.
 if [ -z "${NODE_NAME}" ]; then
