@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 BASE=/elasticsearch
 
@@ -47,13 +47,26 @@ if [ ! -z "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
     fi
 fi
 
+# add keystore entries
+for item in ${!ES_KEYSTORE_*}; do
+    value=${!item}
+    item=${item##ES_KEYSTORE_} # Strip away prefix
+    item=${item,,}             # Lowercase
+    item=${item//__/.}         # Replace double underscore with dot
+
+    if [ ! -f  $BASE/config/elasticsearch.keystore ]; then
+        su-exec elasticsearch $BASE/bin/elasticsearch-keystore create
+    fi
+    su-exec elasticsearch $BASE/bin/elasticsearch-keystore add -x $item <<< ${value}
+done
+
 # run
 if [[ $(whoami) == "root" ]]; then
     chown -R elasticsearch:elasticsearch $BASE
     chown -R elasticsearch:elasticsearch /data
     exec su-exec elasticsearch $BASE/bin/elasticsearch $ES_EXTRA_ARGS
 else
-    # the container's first process is not running as 'root', 
+    # the container's first process is not running as 'root',
     # it does not have the rights to chown. however, we may
     # assume that it is being ran as 'elasticsearch', and that
     # the volumes already have the right permissions. this is
