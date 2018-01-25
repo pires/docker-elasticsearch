@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 BASE=/elasticsearch
 
@@ -39,6 +39,14 @@ if [ ! -z "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
         echo "cluster.routing.allocation.awareness.attributes: ${SHARD_ALLOCATION_AWARENESS}" >> $BASE/config/elasticsearch.yml
     fi
 fi
+
+for item in ${!ES_CONFIG_*}; do
+    value=${!item}
+    item=${item##ES_CONFIG_}   # Strip away prefix
+    item=${item,,}             # Lowercase
+    item=${item//__/.}         # Replace double underscore with dot
+    echo "${item}: ${value}" >> $BASE/config/elasticsearch.yml
+done
 
 # run
 chown -R elasticsearch:elasticsearch $BASE
