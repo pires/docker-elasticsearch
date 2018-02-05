@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 BASE=/elasticsearch
 
@@ -40,7 +40,28 @@ if [ ! -z "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
     fi
 fi
 
+for item in ${!ES_CONFIG_*}; do
+    value=${!item}
+    item=${item##ES_CONFIG_}   # Strip away prefix
+    item=${item,,}             # Lowercase
+    item=${item//__/.}         # Replace double underscore with dot
+    echo "${item}: ${value}" >> $BASE/config/elasticsearch.yml
+done
+
 # run
 chown -R elasticsearch:elasticsearch $BASE
+
+for item in ${!ES_KEYSTORE_*}; do
+    value=${!item}
+    item=${item##ES_KEYSTORE_} # Strip away prefix
+    item=${item,,}             # Lowercase
+    item=${item//__/.}         # Replace double underscore with dot
+
+    if [ ! -f  $BASE/config/elasticsearch.keystore ]; then
+        su-exec elasticsearch $BASE/bin/elasticsearch-keystore create
+    fi
+    su-exec elasticsearch $BASE/bin/elasticsearch-keystore add -x $item <<< ${value}
+done
+
 chown -R elasticsearch:elasticsearch /data
 exec su-exec elasticsearch $BASE/bin/elasticsearch
