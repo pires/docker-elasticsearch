@@ -41,6 +41,16 @@ if [ ! -z "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
 fi
 
 # run
-chown -R elasticsearch:elasticsearch $BASE
-chown -R elasticsearch:elasticsearch /data
-exec su-exec elasticsearch $BASE/bin/elasticsearch
+if [[ $(whoami) == "root" ]]; then
+    chown -R elasticsearch:elasticsearch $BASE
+    chown -R elasticsearch:elasticsearch /data
+    exec su-exec elasticsearch $BASE/bin/elasticsearch
+else
+    # the container's first process is not running as 'root', 
+    # it does not have the rights to chown. however, we may
+    # assume that it is being ran as 'elasticsearch', and that
+    # the volumes already have the right permissions. this is
+    # the case for kubernetes for example, when 'runAsUser: 1000'
+    # and 'fsGroup:100' are defined in the pod's security context.
+    $BASE/bin/elasticsearch
+fi
