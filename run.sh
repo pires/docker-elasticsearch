@@ -21,7 +21,10 @@ if [ ! -z "${ES_PLUGINS_INSTALL}" ]; then
    IFS=','
    for plugin in ${ES_PLUGINS_INSTALL}; do
       if ! $BASE/bin/elasticsearch-plugin list | grep -qs ${plugin}; then
-         yes | $BASE/bin/elasticsearch-plugin install --batch ${plugin}
+         until $BASE/bin/elasticsearch-plugin install --batch ${plugin}; do
+           echo "failed to install ${plugin}, retrying in 3s"
+           sleep 3
+         done
       fi
    done
    IFS=$OLDIFS
