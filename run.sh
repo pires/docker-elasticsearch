@@ -13,6 +13,10 @@ if [ -z "${NODE_NAME}" ]; then
 fi
 export NODE_NAME=${NODE_NAME}
 
+# Create a temporary folder for Elastic Search ourselves.
+# Ref: https://github.com/elastic/elasticsearch/pull/27659
+export ES_TMPDIR=`mktemp -d -t elasticsearch.XXXXXXXX`
+
 # Prevent "Text file busy" errors
 sync
 
