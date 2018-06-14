@@ -30,3 +30,5 @@ http:
 discovery:
   zen:
     minimum_master_nodes: ${NUMBER_OF_MASTERS}
+
+xpack.ml.enabled: false
