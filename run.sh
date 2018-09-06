@@ -51,6 +51,7 @@ fi
 
 # remove x-pack-ml module
 rm -rf /elasticsearch/modules/x-pack/x-pack-ml
+rm -rf /elasticsearch/modules/x-pack-ml
 
 # run
 if [[ $(whoami) == "root" ]]; then
