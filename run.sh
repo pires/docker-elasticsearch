@@ -40,7 +40,12 @@ if [ ! -z "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
     # this will map to a file like  /etc/hostname => /dockerhostname so reading that file will get the
     #  container hostname
     if [ "$NODE_DATA" == "true" ]; then
-        ES_SHARD_ATTR=`cat ${SHARD_ALLOCATION_AWARENESS_ATTR}`
+        # whether or not to use the environment variable for the attr vs volume
+        SHARD_ALLOCATION_AWARENESS_ATTR_SOURCE="$(echo "${SHARD_ALLOCATION_AWARENESS_ATTR_SOURCE}" | tr '[a-z]' '[A-Z]')"
+        case "${SHARD_ALLOCATION_AWARENESS_ATTR_SOURCE}" in
+            ENV) ES_SHARD_ATTR="${SHARD_ALLOCATION_AWARENESS_ATTR}" ;;
+            *) ES_SHARD_ATTR=`cat ${SHARD_ALLOCATION_AWARENESS_ATTR}` ;;
+        esac
         NODE_NAME="${ES_SHARD_ATTR}-${NODE_NAME}"
         echo "node.attr.${SHARD_ALLOCATION_AWARENESS}: ${ES_SHARD_ATTR}" >> $BASE/config/elasticsearch.yml
     fi
