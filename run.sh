@@ -57,10 +57,10 @@ if [[ $(whoami) == "root" ]]; then
     #chown -R elasticsearch:elasticsearch $BASE
     #chown -R elasticsearch:elasticsearch /data
 	echo "Changing ownership of $BASE folder"
-	find . -type f -print0 | xargs -0 chown elasticsearch:elasticsearch $BASE
+	time find $BASE -type f -not -user elasticsearch -print0 | xargs -0 chown elasticsearch:elasticsearch $BASE
 	
 	echo "Changing ownership of /data folder"
-	find . -type f -print0 | xargs -0 chown elasticsearch:elasticsearch /data
+	time find /data -type f -not -user elasticsearch -print0 | xargs -0 chown elasticsearch:elasticsearch /data
 	
     exec su-exec elasticsearch $BASE/bin/elasticsearch $ES_EXTRA_ARGS
 else
