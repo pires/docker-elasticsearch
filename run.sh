@@ -64,7 +64,7 @@ if [[ $(whoami) == "root" ]]; then
 	
     exec su-exec elasticsearch "${BASE}"/bin/elasticsearch ${ES_EXTRA_ARGS}
 else
-    # Rhe container's first process is not running as 'root', 
+    # The container's first process is not running as 'root', 
     # it does not have the rights to chown. However, we may
     # assume that it is being ran as 'elasticsearch', and that
     # the volumes already have the right permissions. This is
