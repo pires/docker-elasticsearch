@@ -11,9 +11,8 @@ fi
 
 # Set a random node name if not set.
 if [ -z "${NODE_NAME}" ]; then
-	NODE_NAME=$(uuidgen)
+    NODE_NAME=$(uuidgen)
 fi
-export NODE_NAME=${NODE_NAME}
 
 # Create a temporary folder for Elastic Search ourselves.
 # Ref: https://github.com/elastic/elasticsearch/pull/27659
@@ -39,15 +38,21 @@ fi
 if [ ! -z "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
     # this will map to a file like  /etc/hostname => /dockerhostname so reading that file will get the
     #  container hostname
-    if [ "$NODE_DATA" == "true" ]; then
-        ES_SHARD_ATTR=`cat ${SHARD_ALLOCATION_AWARENESS_ATTR}`
-        NODE_NAME="${ES_SHARD_ATTR}-${NODE_NAME}"
-        echo "node.attr.${SHARD_ALLOCATION_AWARENESS}: ${ES_SHARD_ATTR}" >> $BASE/config/elasticsearch.yml
+    if [ -f "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
+        ES_SHARD_ATTR="$(cat "${SHARD_ALLOCATION_AWARENESS_ATTR}")"
+    else
+        ES_SHARD_ATTR="${SHARD_ALLOCATION_AWARENESS_ATTR}"
     fi
+
+    NODE_NAME="${ES_SHARD_ATTR}-${NODE_NAME}"
+    echo "node.attr.${SHARD_ALLOCATION_AWARENESS}: ${ES_SHARD_ATTR}" >> $BASE/config/elasticsearch.yml
+
     if [ "$NODE_MASTER" == "true" ]; then
         echo "cluster.routing.allocation.awareness.attributes: ${SHARD_ALLOCATION_AWARENESS}" >> $BASE/config/elasticsearch.yml
     fi
 fi
+
+export NODE_NAME=${NODE_NAME}
 
 # remove x-pack-ml module
 rm -rf /elasticsearch/modules/x-pack/x-pack-ml
@@ -55,14 +60,11 @@ rm -rf /elasticsearch/modules/x-pack-ml
 
 # run
 if [[ $(whoami) == "root" ]]; then
-    #chown -R elasticsearch:elasticsearch $BASE
-    #chown -R elasticsearch:elasticsearch /data
-	echo "Changing ownership of $BASE folder"
-	find . -type f -print0 | xargs -0 chown elasticsearch:elasticsearch $BASE
-	
-	echo "Changing ownership of /data folder"
-	find . -type f -print0 | xargs -0 chown elasticsearch:elasticsearch /data
-	
+    if [ ! -d "/data/data/nodes/0" ]; then
+        echo "Changing ownership of /data folder"
+        chown -R elasticsearch:elasticsearch /data
+    fi
+
     exec su-exec elasticsearch $BASE/bin/elasticsearch $ES_EXTRA_ARGS
 else
     # the container's first process is not running as 'root', 
