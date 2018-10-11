@@ -13,7 +13,6 @@ fi
 if [ -z "${NODE_NAME}" ]; then
     NODE_NAME="$(uuidgen)"
 fi
-export NODE_NAME="${NODE_NAME}"
 
 # Create a temporary folder for Elasticsearch ourselves
 # ref: https://github.com/elastic/elasticsearch/pull/27659
@@ -37,32 +36,35 @@ if [ ! -z "${ES_PLUGINS_INSTALL}" ]; then
 fi
 
 if [ ! -z "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
-    # This will map to a file like  /etc/hostname => /dockerhostname so reading that file will get the
-    # container hostname
-    if [ "${NODE_DATA}" == "true" ]; then
-        ES_SHARD_ATTR="$(cat ${SHARD_ALLOCATION_AWARENESS_ATTR})"
-        NODE_NAME="${ES_SHARD_ATTR}-${NODE_NAME}"
-        echo "node.attr.${SHARD_ALLOCATION_AWARENESS}: ${ES_SHARD_ATTR}" >> "${BASE}"/config/elasticsearch.yml
+    # this will map to a file like  /etc/hostname => /dockerhostname so reading that file will get the
+    #  container hostname
+    if [ -f "${SHARD_ALLOCATION_AWARENESS_ATTR}" ]; then
+        ES_SHARD_ATTR="$(cat "${SHARD_ALLOCATION_AWARENESS_ATTR}")"
+    else
+        ES_SHARD_ATTR="${SHARD_ALLOCATION_AWARENESS_ATTR}"
     fi
+
+    NODE_NAME="${ES_SHARD_ATTR}-${NODE_NAME}"
+    echo "node.attr.${SHARD_ALLOCATION_AWARENESS}: ${ES_SHARD_ATTR}" >> $BASE/config/elasticsearch.yml
+
     if [ "$NODE_MASTER" == "true" ]; then
         echo "cluster.routing.allocation.awareness.attributes: ${SHARD_ALLOCATION_AWARENESS}" >> "${BASE}"/config/elasticsearch.yml
     fi
 fi
 
-# Remove x-pack-ml module
-rm -rf \
-    /elasticsearch/modules/x-pack/x-pack-ml \
-    /elasticsearch/modules/x-pack-ml
+export NODE_NAME=${NODE_NAME}
+
+# remove x-pack-ml module
+rm -rf /elasticsearch/modules/x-pack/x-pack-ml
+rm -rf /elasticsearch/modules/x-pack-ml
 
 # Run
 if [[ $(whoami) == "root" ]]; then
-    echo "Changing ownership of ${BASE} folder"
-    find "${BASE}" -type f -print0 | xargs -0 chown elasticsearch:elasticsearch
-
-    echo "Changing ownership of /data folder"
-    find /data -type f -print0 | xargs -0 chown elasticsearch:elasticsearch
-	
-    exec su-exec elasticsearch "${BASE}"/bin/elasticsearch ${ES_EXTRA_ARGS}
+    if [ ! -d "/data/data/nodes/0" ]; then
+        echo "Changing ownership of /data folder"
+        chown -R elasticsearch:elasticsearch /data
+    fi
+    exec su-exec elasticsearch $BASE/bin/elasticsearch $ES_EXTRA_ARGS
 else
     # The container's first process is not running as 'root', 
     # it does not have the rights to chown. However, we may

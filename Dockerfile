@@ -28,15 +28,8 @@ RUN apk add --no-cache -t .build-deps gnupg openssl \
   && ls -lah \
   && mv elasticsearch-$ES_VERSION /elasticsearch \
   && adduser -DH -s /sbin/nologin elasticsearch \
-  && echo "===> Creating Elasticsearch Paths..." \
-  && for path in \
-  	/elasticsearch/config \
-  	/elasticsearch/config/scripts \
-  	/elasticsearch/plugins \
-  ; do \
-  mkdir -p "$path"; \
-  chown -R elasticsearch:elasticsearch "$path"; \
-  done \
+  && mkdir -p /elasticsearch/config/scripts /elasticsearch/plugins \
+  && chown -R elasticsearch:elasticsearch /elasticsearch \
   && rm -rf /tmp/* \
   && apk del --purge .build-deps
 
